@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarterly Preventive Maintenance Report - Network</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        td, th {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .spaced-sentences {
+            line-height: 2; /* Adjust this value to control the space between sentences */
+        }
+    </style>
+</head>
+<body style="border: 1px solid black;padding: 5px;">
+    <p style="text-align: center; text-transform: uppercase;font-weight: 50;font-size: 20px;">
+        <u>Quarterly Preventive Maintenance Report - Network</u>
+    </p>
+    <br>
+    <h2 style="text-align: center; text-transform: uppercase; font-size:15px;">
+        PM NO:- <input type="text" size="10%">
+        QUARTER:- <input type="text" size="15%">
+        <th style="width:10%"><b>Date:</b></th>
+        <th style="width:10%"><input type="date"></th>
+    </h2>
+    <br>
+    <form id="maintenanceForm" method="post" action="/save_maintenance_details/">
+        {% csrf_token %}
+        <table class="table">
+            <tr>
+                <th style="width:20%"><b>Employee Code</b></th>
+                <th><input type="text" id="employeeNumber" name="employee_number" size="22%">
+                    <button type="button" id="searchEmployee" style="margin-left: 20px;">Search</button>
+                </th>
+                <th style="width:30%"><b>Personal Area</b></th>
+                <th style="width:25%"><input type="text" name="personal_area" size="22%"></th>
+            </tr>
+            <tr>
+                <th><b>SRO/TNSO</b></th>
+                <th><input type="text" name="sro_tnso" size="22%"></th>
+                <th><b>Building/Floor/CabinNo.</b></th>
+                <th><input type="text" name="building_floor_cabin_no" size="22%"></th>
+            </tr>
+            <tr>
+                <th><b>Name of the User</b></th>
+                <th><input type="text" name="name_of_user" size="22%"></th>
+                <th><b>Department</b></th>
+                <th><input type="text" name="department" size="22%"></th>
+                <!--<th style="width:10%"><b>Personal Sub Area</b></th>
+                <th style="width:10%"><input type="text" name="personal_sub_area" size="22%"></th>!-->
+
+            </tr>
+            <tr>
+                
+                <th><b>Designation</b></th>
+                <th><input type="text" name="designation" size="22%"></th>
+            </tr>
+        </table>
+        <br>
+        <!-- Add more fields as necessary -->
+        <!--<button type="submit">Save</button> -->
+    </form>
+
+    <div id="employeeDetails">
+        <!-- Display fetched details here -->
+    </div>
+</table>
+<br>
+
+</body>
+<br>
+<table align="center" class="table">
+<tr>
+<th><b><center>ProcessorType</center></b></th>
+<th><b><center>HDD Capacity/Type</center></b></th>
+<th><b><center>RAM Capacity and Type</center></b></th>
+<th><b><center>DVD type</center></b></th>
+</tr>
+<tr style="height:40px">
+<th><center>{{ processor }}</center></th>
+<th><center>{{ hdd }}</th>
+<th><center>{{ ram }}</center></th>
+<th><center>{{ dvd_type }}</th>
+</tr>
+</table>
+<br>
+<table class="table">
+<tr><td><table class="table">
+<th style="width:25%"><b>Make/Model</b></th>
+<th style="width:25%">{{ system_model }}</th>
+<th><b>Serial No</b></th>
+<th>{{ system_serial_number }}</th>
+ </tr>
+ <tr><th><b>Computer Name</b></th>
+ <th>{{ computer_name }}</th>
+ <th><b>Type</b></th>
+ <th>{{ system_type }}</th>
+ </tr>
+ <tr><th><b>Mouse Type</b></th>
+ <th>{{ mouse_type }}</th>
+ <th><b>Moniter Model/Size</b></th>
+<th>{{ monitor_size }}</th>
+
+ </tr>
+ <tr>
+<th><b>Operating System</b></td>
+<th>{{ os_version }}</th>
+<th><b>McAfee Agent Ver.</b></th>
+<th>{{ mcafee_agent_version }}</th>
+</tr>
+<tr>
+<th><b>OS Patch/Version</b></th>
+<th>{{ patch_info }}</th>
+<th><b>McAfee DLP Ver.</b></th>
+<th><input type="text" name="McAfee DLP Ver." size="20%"></th>
+</tr>
+<tr>
+<th><b>Microsoft Indic Language Input Tool</b></th>
+<td>Yes/No <select id="yes/no" name="Microsoft Indic Language Input Tool" onchange="changeStatus()" style="padding: 5px 5px">
+<option value="S">Select</option>
+<option value="Y">Yes</option>
+<option value=N">No</option>
+</select></td>
+<th><b>McAfee End Point Security Ver.</b></th>
+<th><input type="text" name="McAfee End Point Security Ver." size="20%"></th>
+</tr>
+<tr>
+<th><b>SAP Version</b></th>
+<th>{{ sap_version }}</th>
+<th><b>McAfee Threat Prevention</b></th>
+<td>Yes/No <select id="yes/no" name="McAfee Threat Prevention" onchange="changeStatus()" style="padding: 5px 5px">
+<option value="S">Select</option>
+<option value="Y">Yes</option>
+<option value=N">No</option>
+</select></td>
+</tr>
+<tr>
+<th><b>MS Office Version</b></th>
+<th>{{ office_version }}</th>
+<th><b>Symantec Management Version</b></th>
+<th>{{ symantec_management_version }}</th>
+</tr>
+<tr>
+<th><b>Outlook Patch Version</b></th>
+<th>{{ outlook_patch_version }}</th>
+<th><b>Trend Micro EPAC Version</b></th>
+<th><input type="text" name="Symantec Management Version" size="20%"></th>
+</tr>
+<tr>
+<th><b>Java Version</b></th>
+<th>{{ java_version }}</th>
+<th><b>Ultra VNC Version</b></th>
+<th><input type="text" name="Ultra VNC Version" size="20%"></th>
+</tr>
+<tr>
+<th><b>Adobe Reader/DC Ver.</b></th>
+<th>{{ adobe_reader_version }}</th>
+<th><b>Chrome Version</b></th>
+<th>{{ chrome_version }}</th>
+</tr>
+<tr>
+<th><b>LAPS Installed Version</b></th>
+<th>{{ laps_installed_version }}</th>
+<th><b>DSC Driver Version</b></th>
+<th><input type="text" name="DSC Driver Version" size="20%"></th>
+</tr>
+<tr><center><th><b>IP Address:</b></th>
+ <th>{{ ip_address }}</tr>
+</td>
+</tr>
+</table>
+<tr>
+<table class="table" >
+<tr>
+<th>S.NO</th>
+<th><center>ACTIVITIES TO BE CARRIEDOUT</center></th>
+<th><center>STATUS</center></th>
+<th><center>DETAILS</center></th>
+</tr>
+<tr>
+<td><center>1</center></td>
+<td>Immediately inform concerned user in case of any
+impending crash of hard disk so that remedial action for taking data
+backup could be initiated</td>
+<td><center>Yes/No <select id="yes/no" onchange="changeStatus()" style="padding: 5px 5px">
+<option value="S">Select</option>
+<option value="Y">Yes</option>
+<option value=N">No</option>
+</select></center></td>
+<td><input type="text" name="immed"></td>
+</tr>
+<tr>
+<td><center>2*</center></td>
+<td>Checking of virus and removal of viruses if any or
+foundsince last PM</td>
+<td><center>Yes/No <select id="yes/no" onchange="changeStatus()" style="padding: 5px 5px">
+<option value="S">Select</option>
+<option value="Y">Yes</option>
+<option value=N">No</option>
+</select></center></td>
+<td><input type="text" name="check"></td>
+</tr>
+<tr>
+<td><center>3*</center></td>
+<td>Checking of Programs Installed in PC as per IT
+Security(Autocad,etc..)</d>
+<td><center>Yes/No <select id="yes/no" onchange="changeStatus()" style="padding: 5px 5px">
+<option value="S">Select</option>
+<option value="Y">Yes</option>
+<option value=N">No</option>
+</select></center></td>
+<td><input type="text" name="prog"></td>
+
+</tr>
+<tr>
+<td><center>4</center></td>
+
+<td>Accessories attached to the computer(Webcam,Speaker,etc..)</td>
+<td><center>Yes/No <select id="yes/no" onchange="changeStatus()" style="padding: 5px 5px">
+<option value="S">Select</option>
+<option value="Y">Yes</option>
+<option value=N">No</option>
+</select></center></td>
+<td><input type="text" name="access"></td>
+</tr>
+<tr>
+<td><center>5*</center></td>
+<td>Computer has been connected to UPS</td>
+<td><center>Yes/No <select id="yes/no" onchange="changeStatus()" style="padding: 5px 5px">
+<option value="S">Select</option>
+<option value="Y">Yes</option>
+<option value=N">No</option>
+</select></center></td>
+<td><input type="text" name="comp"></td>
+</tr>
+<tr>
+<td><center>6*</center></td>
+<td>Check Auto Archive configuration and 8.pst files are not
+stored in C Drive(Existing Archive files should not exceed 6 GB)</td>
+<td><center>Yes/No <select id="yes/no" onchange="changeStatus()" style="padding: 5px 5px">
+<option value="S">Select</option>
+<option value="Y">Yes</option>
+<option value=N">No</option>
+</select></center></td>
+<td>Archives Size: <input type="text" name="asi"></td>
+</tr>
+<tr>
+<td><center>7</center></td>
+<td>Earth to Neutral Voltage(UPS Output)</td>
+<td><input type="text" name="earth"></td>
+<td><input type="text" name="volt"></td>
+</tr>
+</table>
+</td>
+</tr>
+<table class="table">
+<tr style="height:40px">
+</tr>
+</table>
+<table class="table">
+<tr>
+<th><b>PC Purpose</b></th>
+<td>Additional/Stock/CCTV/Security/GMS
+Software/Others(Specify):-<input type="text" size="40%" name="add"></td>
+</tr>
+</table>
+<table class="table">
+<tr>
+<td>Any Vendor Specific Software/Application Installed: <input type="text" size="40%" name="anyven"></td>
+</tr>
+<!-- Add more rows for the main table as needed -->
+</table>
+<table style="width: 100%;">
+<tr>
+<th style="border: none;height: 100px;">Remarks by Engineer (if any)</th>
+<th style="border: none;">Remarks by Officer (if any)</th>
+</tr>
+<tr>
+<th style="border: none;">Service Engineer</th>
+<th style="border: none;">User Signature with Seal</th>
+</tr>
+</table>
+<div>
+<form action="">
+<center><input type="SUBMIT"</center>
+</form>
+</div>
+
+    <script>
+    $(document).ready(function() {
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        $('#searchEmployee').click(function() {
+            var employeeNumber = $('#employeeNumber').val();
+            $.ajax({
+                type: 'POST',
+                url: '/fetch_employee_details/',
+                data: {
+                    'employee_number': employeeNumber,
+                    'csrfmiddlewaretoken': csrftoken
+                },
+                success: function(response) {
+                    if (response.employee_details) {
+                        var details = response.employee_details;
+                        //$('#employeeDetails').html('<p>Name: ' + details.name + '</p><p>Department: ' + details.department + '</p>');
+                        // Populate form fields with the fetched details
+                        $('input[name="name_of_user"]').val(details.name);
+                        $('input[name="department"]').val(details.department);
+                        $('input[name="personal_area"]').val(details.personal_area);
+                        $('input[name="sro_tnso"]').val(details.cc_description);
+                        $('input[name="building_floor_cabin_no"]').val(details.building_floor_cabin_no);
+                        $('input[name="personal_sub_area"]').val(details.personal_sub_area);
+                        $('input[name="designation"]').val(details.designation);
+                        // Add more fields as needed
+                    } else {
+                        $('#employeeDetails').html('<p>Employee not found.</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#employeeDetails').html('<p>Error fetching details.</p>');
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>
